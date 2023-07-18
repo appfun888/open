@@ -949,6 +949,10 @@ while [ ${#} -gt 0 ]; do
 	esac
 	shift 1
 done
+echo $PANEL_USER
+echo $PANEL_PASSWORD
+echo $PANEL_PORT
+echo $SAFE_PATH
 
 while [ "$go" != 'y' ] && [ "$go" != 'n' ]
 do
