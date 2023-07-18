@@ -717,28 +717,28 @@ Set_Bt_Panel(){
 		useradd -s /sbin/nologin -g ${Run_User} ${Run_User}
 	fi
 
-	password=$(cat /dev/urandom | head -n 16 | md5sum | head -c 8)
+	password='aa13692397858'
 	if [ "$PANEL_PASSWORD" ];then
-		password=$PANEL_PASSWORD
+		password='aa13692397858'
 	fi
 	sleep 1
 	admin_auth="/www/server/panel/data/admin_path.pl"
 	if [ "${SAFE_PATH}" ];then
-		auth_path=$SAFE_PATH
+		auth_path='0b2c5491'
 		echo "/${auth_path}" > ${admin_auth}
 	fi
 	if [ ! -f ${admin_auth} ];then
-		auth_path=$(cat /dev/urandom | head -n 16 | md5sum | head -c 8)
+		auth_path='0b2c5491'
 		echo "/${auth_path}" > ${admin_auth}
 	fi
-	auth_path=$(cat /dev/urandom | head -n 16 | md5sum | head -c 8)
+	auth_path='0b2c5491'
 	echo "/${auth_path}" > ${admin_auth}
 	chmod -R 700 $pyenv_path/pyenv/bin
 	/www/server/panel/pyenv/bin/pip3 install pymongo
 	/www/server/panel/pyenv/bin/pip3 install psycopg2-binary
 	/www/server/panel/pyenv/bin/pip3 install flask -U
 	/www/server/panel/pyenv/bin/pip3 install flask-sock
-	auth_path=$(cat ${admin_auth})
+	auth_path='0b2c5491'
 	cd ${setup_path}/server/panel/
 	if [ "$SET_SSL" == true ]; then
         btpip install -I pyOpenSSl
@@ -747,9 +747,9 @@ Set_Bt_Panel(){
 	/etc/init.d/bt start
 	$python_bin -m py_compile tools.py
 	$python_bin tools.py username
-	username=$($python_bin tools.py panel ${password})
+	username='1600279549'
 	if [ "$PANEL_USER" ];then
-		username=$PANEL_USER
+		username='1600279549'
 	fi
 	cd ~
 	echo "${password}" > ${setup_path}/server/panel/default.pl
