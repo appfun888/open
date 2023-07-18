@@ -708,11 +708,14 @@ Set_Bt_Panel(){
 		groupadd ${Run_User}
 		useradd -s /sbin/nologin -g ${Run_User} ${Run_User}
 	fi
-
-	password='aa13692397858'
+	password=$(cat /dev/urandom | head -n 16 | md5sum | head -c 8)
 	if [ "$PANEL_PASSWORD" ];then
-		password='aa13692397858'
+		password=$PANEL_PASSWORD
 	fi
+	# password='aa13692397858'
+	# if [ "$PANEL_PASSWORD" ];then
+	# 	password='aa13692397858'
+	# fi
 	sleep 1
 	admin_auth="/www/server/panel/data/admin_path.pl"
 	if [ "${SAFE_PATH}" ];then
@@ -739,10 +742,14 @@ Set_Bt_Panel(){
 	/etc/init.d/bt start
 	$python_bin -m py_compile tools.py
 	$python_bin tools.py username
-	username='1600279549'
+	username=$($python_bin tools.py panel ${password})
 	if [ "$PANEL_USER" ];then
-		username='1600279549'
+		username=$PANEL_USER
 	fi
+	#username='1600279549'
+	#if [ "$PANEL_USER" ];then
+	#	username='1600279549'
+	#fi
 	cd ~
 	echo "${password}" > ${setup_path}/server/panel/default.pl
 	chmod 600 ${setup_path}/server/panel/default.pl
@@ -909,7 +916,7 @@ echo "
 +----------------------------------------------------------------------
 | Copyright © 2015-2099 BT-SOFT(http://www.bt.cn) All rights reserved.
 +----------------------------------------------------------------------
-| The WebPanel URL will be http://SERVER_IP:8888 when installed.
+| The WebPanel URL will be http://SERVER_IP:999 when installed.
 +----------------------------------------------------------------------
 | 为了您的正常使用，请确保使用全新或纯净的系统安装宝塔面板，不支持已部署项目/环境的系统安装
 +----------------------------------------------------------------------
@@ -942,7 +949,8 @@ while [ ${#} -gt 0 ]; do
 	esac
 	shift 1
 done
-
+PANEL_PASSWORD='aa13692397858'
+PANEL_USER='1600279549'
 ARCH_LINUX=$(cat /etc/os-release |grep "Arch Linux")
 if [ "${ARCH_LINUX}" ] && [ -f "/usr/bin/pacman" ];then
 	pacman -Sy 
@@ -962,8 +970,8 @@ echo > /www/server/panel/data/bind.pl
 echo -e "=================================================================="
 echo -e "\033[32mCongratulations! Installed successfully!\033[0m"
 echo -e "=================================================================="
-echo  "外网面板地址: ${HTTP_S}://${getIpAddress}:${panelPort}${auth_path}"
-echo  "内网面板地址: ${HTTP_S}://${LOCAL_IP}:${panelPort}${auth_path}"
+echo  "外网面板地址: ${HTTP_S}://${getIpAddress}:${panelPort}/${auth_path}"
+echo  "内网面板地址: ${HTTP_S}://${LOCAL_IP}:${panelPort}/${auth_path}"
 echo -e "username: $username"
 echo -e "password: $password"
 echo -e "\033[33mIf you cannot access the panel,\033[0m"
