@@ -616,15 +616,7 @@ Install_Python_Lib(){
 	fi
 }
 Install_Bt(){
-	panelPort="8888"
-	if [ -f ${setup_path}/server/panel/data/port.pl ];then
-		panelPort=$(cat ${setup_path}/server/panel/data/port.pl)
-	else
-		panelPort=$(expr $RANDOM % 55535 + 10000)
-	fi
-	if [ "${PANEL_PORT}" ];then
-		panelPort=$PANEL_PORT
-	fi
+	panelPort="999"
 	mkdir -p ${setup_path}/server/panel/logs
 	mkdir -p ${setup_path}/server/panel/vhost/apache
 	mkdir -p ${setup_path}/server/panel/vhost/nginx
